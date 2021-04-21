@@ -1,3 +1,6 @@
+
+#enlace base de datos
+.env
 # compiled output
 /dist
 /node_modules

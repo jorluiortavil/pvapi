@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate} from 'typeorm';
+import {hash} from 'bcryptjs';
 @Entity()
 export class users {
     @PrimaryGeneratedColumn()
@@ -24,4 +25,13 @@ export class users {
     
     @Column()
     rol: number;
+    
+@BeforeInsert()
+@BeforeUpdate()
+async hashClave(){
+    if (!this.clave){
+        return;
+    }
+    this.clave = await hash(this.clave, 10);
+}
 }
