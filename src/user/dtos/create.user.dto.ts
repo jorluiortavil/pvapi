@@ -1,5 +1,9 @@
-import { IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
+
 export class createUserDto{
+    @IsNumber()
+    id?: number;
+
     @IsString()
     nombre: string;
 
@@ -19,5 +23,5 @@ export class createUserDto{
     imagen: string;
     
     @IsString()
-    rol: string; 
+    rol: number; 
 }

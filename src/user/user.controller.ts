@@ -9,23 +9,23 @@ export class UserController {
 
     }
     @Get()
-    getMany(){
-        return this.userService.getMany();
+    async getMany(){
+        return await this.userService.getMany();
     }
     @Get(':id')
-    getOne(@Param('id') id:number){
-        return this.userService.getOne(id);
+    async getOne(@Param('id') id:number){
+        return await this.userService.getOne(id);
     }
     @Post()
-    createOne( dto:createUserDto ){
-        return this.userService.createOne();
+    async createOne(@Body() dto:createUserDto){
+        return await this.userService.createOne(dto as any);
     }
-    @Put()
-    updateOne(@Param('id') id:number, dto:editUserDto ){
-        return this.userService.updateOne(id);
+    @Put(':id')
+    async updateOne(@Param('id') id:number,@Body() dto:editUserDto ){
+        return await this.userService.updateOne(id, dto);
     }
-    @Delete()
-    deleteOne(@Param('id') id:number){
-        return this.userService.deleteOne(id);
+    @Delete(':id')
+    async deleteOne(@Param('id') id:number){
+        return await this.userService.deleteOne(id);
     }
 }

@@ -11,9 +11,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'ctrldb',
+      password: '212121',
       database: 'puntove',
       entities: ["dist/**/*.entity{.ts,.js}"],
+      autoLoadEntities: true,
       synchronize: true,
     }), UserModule
   ],

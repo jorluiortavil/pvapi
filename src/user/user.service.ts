@@ -1,20 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { createUserDto } from './dtos/create.user.dto';
+import { editUserDto } from './dtos/edit.user.dto';
+import { users } from './user.entity';
 
 @Injectable()
 export class UserService {
-getMany(){
-    return { ok: 'getMany'}
+constructor (
+    @InjectRepository(users)
+    private readonly usersRepository: Repository<users>
+) {}
+async getMany(){
+    return await this.usersRepository.find();
 }
-getOne(id:number){
-    return { ok: 'getOne'}
+async getOne(id:number){
+    return await this.usersRepository.findOne(id);
 }
-createOne(){
-    return { ok: 'createOne'}
+async createOne(dto:createUserDto){
+    const CUSER = this.usersRepository.create(dto as any);
+    return await this.usersRepository.save(CUSER);
 }
-updateOne(id:number){
-    return { ok: 'updateOne'}
+async updateOne(id:number, dto:editUserDto){
+    const UUSER = await this.usersRepository.findOne(id);
+    if (!UUSER) throw new NotFoundException("ID NO ENCONTRADA");
+    const EUSER = Object.assign(UUSER, dto);
+    return await this.usersRepository.save(EUSER);
 }
-deleteOne(id:number){
-    return { ok: 'deleteOne'}
+async deleteOne(id:number){
+    return await this.usersRepository.delete([id]);
 }
 }
