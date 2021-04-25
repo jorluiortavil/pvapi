@@ -30,4 +30,8 @@ async updateOne(id:number, dto:editUserDto){
 async deleteOne(id:number){
     return await this.usersRepository.delete([id]);
 }
+async findOne(usuario: string){
+    const FUSER=await this.usersRepository.findOne({usuario}); 
+    return FUSER;
+}
 }
