@@ -25,7 +25,7 @@ export class AuthController {
     profile(@Request() req: any){
        const {clave, ...rest} = req.user;
         return {
-            mensaje: 'Peticion Aceptada',
+            mensaje: 'Peticion ceptada',
             rest
         };
     }
