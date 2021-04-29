@@ -12,10 +12,14 @@ constructor (
     private readonly usersRepository: Repository<users>
 ) {}
 async getMany(){
-    return await this.usersRepository.find();
+     const MUSER= await this.usersRepository.find();
+     if (!MUSER) throw new NotFoundException("NO EXISTEN REGISTROS");
+     return MUSER;
 }
 async getOne(id:number){
-    return await this.usersRepository.findOne(id);
+    const GUSER = await this.usersRepository.findOne(id);
+    if (!GUSER) throw new NotFoundException("NO HAY REGISTRO PARA EL ID");
+    return GUSER;
 }
 async createOne(dto:createUserDto){
     const CUSER = this.usersRepository.create(dto as any);
@@ -23,15 +27,18 @@ async createOne(dto:createUserDto){
 }
 async updateOne(id:number, dto:editUserDto){
     const UUSER = await this.usersRepository.findOne(id);
-    if (!UUSER) throw new NotFoundException("ID NO ENCONTRADA");
+    if (!UUSER) throw new NotFoundException("NO HAY REGISTRO PARA EL ID");
     const EUSER = Object.assign(UUSER, dto);
     return await this.usersRepository.save(EUSER);
 }
 async deleteOne(id:number){
-    return await this.usersRepository.delete([id]);
+    const DUSER = await this.usersRepository.delete([id]);
+    if (!DUSER) throw new NotFoundException("NO HAY REGISTRO PARA EL ID");
+    return DUSER;
 }
 async findOne(usuario: string){
     const FUSER=await this.usersRepository.findOne({usuario}); 
+    if (!FUSER) throw new NotFoundException("NO HAY REGISTRO PARA ESTE USUARIO");
     return FUSER;
 }
 }
